@@ -10,13 +10,13 @@ autoInterval:600000 // edit time here
 
 // POPUP AD
 function runPopupAd(){
-if(!ADS.popup) return;
+if(!ADS.popup) return;int-22034
 /* paste popup ad here */
 }
 
 // VERIFY INTERSTITIAL
 function runVerifyInterstitial(){
-if(!ADS.verifyInterstitial) return;
+if(!ADS.verifyInterstitial) return;int-22035
 /* paste verify ad here */
 }
 
@@ -26,6 +26,7 @@ if(!ADS.reward){
 callback();
 return;
 }
+  22036
 /* paste reward ad here */
 setTimeout(callback,3000);
 }
@@ -34,6 +35,7 @@ setTimeout(callback,3000);
 function startAutoAds(){
 if(!ADS.auto) return;
 setInterval(()=>{
+  int-22037
 /* paste auto ad here */
 },ADS.autoInterval);
 }
