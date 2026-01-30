@@ -4,8 +4,6 @@ movies:["All","Hollywood","Bollywood","Tollywood"],
 adult:["All","Desi","English","Cosplay","Japanese"]
 };
 
-const SECOND_POPUP_DELAY=2*60*60*1000;
-
 let DB=[];
 let current=[];
 let activeCategory="anime";
@@ -17,15 +15,16 @@ fetch("data.json")
 DB=d;
 loadCategory("anime",document.querySelector(".tabs button"));
 checkPopup();
+runPopupAd();
+startAutoAds();
 checkDeepLink();
 });
 
-// deep link open
+// deep link
 function checkDeepLink(){
 let params=new URLSearchParams(location.search);
 let id=params.get("id");
 if(!id) return;
-
 let index=DB.findIndex(x=>x.id==id);
 if(index!==-1){
 current=[DB[index]];
@@ -33,7 +32,6 @@ openDetails(0);
 }
 }
 
-// category
 function loadCategory(cat,btn){
 activeCategory=cat;
 activeSub="All";
@@ -81,10 +79,8 @@ html+=`
 grid.innerHTML=html;
 }
 
-// details
 function openDetails(i){
 let d=current[i];
-
 history.pushState({modal:true},"");
 
 details.innerHTML=`
@@ -118,7 +114,6 @@ details.style.display="none";
 history.back();
 }
 
-// SHARE SAFE LINK
 function shareItem(id){
 let link=location.origin+location.pathname+"?id="+id;
 navigator.clipboard.writeText(link);
@@ -132,6 +127,7 @@ setTimeout(()=>toast.style.display="none",2000);
 }
 
 function verify(link){
+runVerifyInterstitial();
 window.location="verify.html?link="+link;
 }
 
@@ -142,27 +138,14 @@ current=f;
 render(f);
 }
 
-function today(){return new Date().toDateString();}
-
 function checkPopup(){
-let data=JSON.parse(localStorage.getItem("popupData")||"{}");
-let now=Date.now();
-
-if(data.day!==today()){
-data={day:today(),count:0,last:0};
-}
-
-if(data.count===0 || (data.count===1 && now-data.last>SECOND_POPUP_DELAY)){
 popup.style.display="flex";
-data.count++;
-data.last=now;
-localStorage.setItem("popupData",JSON.stringify(data));
-}
 }
 
 function watchAd(){
-popup.innerHTML="<h2>Watching Ad...</h2>";
-setTimeout(()=>popup.style.display="none",5000);
+runRewardAd(()=>{
+popup.style.display="none";
+});
 }
 
 window.onpopstate=function(){
