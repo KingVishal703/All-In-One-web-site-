@@ -1,47 +1,39 @@
 const ADS = {
-popup:true,
+homeInterstitial:true,
 verifyInterstitial:true,
 reward:true,
-auto:true,
-autoInterval:600000
+autoInterval:600000 // 10 min
 };
 
-// load SDK once
-let popupAd = null;
-let verifyAd = null;
-let rewardAd = null;
-let autoAd = null;
+let homeAd=null;
+let verifyAd=null;
+let rewardAd=null;
 
-window.addEventListener("load", () => {
+window.addEventListener("load",()=>{
 
 if(window.Adsgram){
-
-popupAd = window.Adsgram.init({ blockId: "int-22034" });
-verifyAd = window.Adsgram.init({ blockId: "int-22035" });
-rewardAd = window.Adsgram.init({ blockId: "22036" });
-autoAd = window.Adsgram.init({ blockId: "int-22037" });
-
+homeAd=window.Adsgram.init({blockId:"HOME_ID"});
+verifyAd=window.Adsgram.init({blockId:"VERIFY_ID"});
+rewardAd=window.Adsgram.init({blockId:"REWARD_ID"});
 }
 
 });
 
-// POPUP
-function runPopupAd(){
-if(!ADS.popup || !popupAd) return;
-
-popupAd.show().catch(()=>{});
+// home interstitial
+function runHomeAd(){
+if(!ADS.homeInterstitial||!homeAd) return;
+homeAd.show().catch(()=>{});
 }
 
-// VERIFY
-function runVerifyInterstitial(){
-if(!ADS.verifyInterstitial || !verifyAd) return;
-
+// verify interstitial
+function runVerifyAd(){
+if(!ADS.verifyInterstitial||!verifyAd) return;
 verifyAd.show().catch(()=>{});
 }
 
-// REWARD
-function runRewardAd(callback){
-if(!ADS.reward || !rewardAd){
+// reward ad
+function runReward(callback){
+if(!ADS.reward||!rewardAd){
 callback();
 return;
 }
@@ -51,11 +43,11 @@ rewardAd.show()
 .catch(()=>callback());
 }
 
-// AUTO
-function startAutoAds(){
-if(!ADS.auto || !autoAd) return;
+// auto loop
+function startAutoHomeAds(){
+if(!ADS.homeInterstitial) return;
 
 setInterval(()=>{
-autoAd.show().catch(()=>{});
+runHomeAd();
 },ADS.autoInterval);
 }
