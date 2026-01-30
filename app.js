@@ -9,14 +9,41 @@ let current=[];
 let activeCategory="anime";
 let activeSub="All";
 
+// fallback data (so app never blank)
+const FALLBACK=[
+{
+id:"demo1",
+title:"Demo Content",
+image:"https://via.placeholder.com/300x400?text=Demo",
+category:"anime",
+sub:"All",
+season:"1",
+token:"#"
+}
+];
+
 fetch("data.json")
-.then(r=>r.json())
+.then(r=>{
+if(!r.ok) throw "missing";
+return r.json();
+})
 .then(d=>{
 DB=d;
+startApp();
+})
+.catch(()=>{
+console.log("data.json missing — using fallback");
+DB=FALLBACK;
+startApp();
+});
+
+function startApp(){
 loadCategory("anime",document.querySelector(".tabs button"));
 runHomeAd();
 startAutoHomeAds();
-});
+}
+
+// ----------------------------
 
 function loadCategory(cat,btn){
 activeCategory=cat;
@@ -53,6 +80,11 @@ render(current);
 }
 
 function render(list){
+if(!list.length){
+grid.innerHTML=`<h3 style="padding:20px;color:#777">No content</h3>`;
+return;
+}
+
 let html="";
 list.forEach((item,i)=>{
 html+=`
@@ -70,7 +102,6 @@ let d=current[i];
 
 details.innerHTML=`
 <div class="modal-box">
-
 <div class="topbar">
 <div class="topbtn" onclick="closeDetails()">← Back</div>
 </div>
@@ -78,10 +109,7 @@ details.innerHTML=`
 <img src="${d.image}">
 <h2 style="padding:10px">${d.title}</h2>
 
-<p style="padding:0 10px">Season: ${d.season}</p>
-
 <div class="button" onclick="verify('${encodeURIComponent(d.token)}')">Watch Now</div>
-
 </div>
 `;
 
