@@ -3,27 +3,21 @@ popup:true,
 verifyInterstitial:true,
 reward:true,
 auto:true,
-autoInterval:600000 // 10 min (edit here)
+autoInterval:600000 // edit time here
 };
 
-/* ===========================
-   🔥 PASTE AD CODES BELOW
-=========================== */
+/* ========= PASTE ADSGRAM CODE BELOW ========= */
 
 // POPUP AD
 function runPopupAd(){
 if(!ADS.popup) return;
-
-/* paste popup ad code */
-
+/* paste popup ad here */
 }
 
 // VERIFY INTERSTITIAL
 function runVerifyInterstitial(){
 if(!ADS.verifyInterstitial) return;
-
-/* paste verify interstitial code */
-
+/* paste verify ad here */
 }
 
 // REWARD AD
@@ -32,17 +26,14 @@ if(!ADS.reward){
 callback();
 return;
 }
-
-/* paste reward ad code */
-
-setTimeout(callback,3000); // fallback
+/* paste reward ad here */
+setTimeout(callback,3000);
 }
 
-// AUTO INTERSTITIAL
+// AUTO AD
 function startAutoAds(){
 if(!ADS.auto) return;
-
 setInterval(()=>{
-/* paste auto ad code */
+/* paste auto ad here */
 },ADS.autoInterval);
 }
