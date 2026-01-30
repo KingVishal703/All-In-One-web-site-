@@ -68,10 +68,7 @@ transition:0.2s;
 
 .secondary{background:#222;color:#aaa}
 
-.back{
-background:#333;
-color:#aaa;
-}
+.back{background:#333;color:#aaa}
 
 .tip{font-size:13px;color:#777;margin-top:10px}
 
@@ -101,16 +98,19 @@ Watch a short ad to unlock your file.<br>
 This helps support the platform ❤️
 </div>
 
-<div class="timer" id="t">10</div>
+<div class="timer" id="t">30</div>
 
+<!-- Reward button always visible -->
 <div id="rewardBtn" class="button" onclick="watchReward()">
 🎥 Watch Ad To Unlock
 </div>
 
+<!-- Get file appears after timer -->
 <div id="freeBtn" class="button secondary" style="display:none" onclick="go()">
 ⚡ Get File
 </div>
 
+<!-- Back button always visible -->
 <div class="button back" onclick="goHome()">
 ⬅ Back to Home
 </div>
@@ -141,7 +141,7 @@ t.innerText=time;
 
 if(time<=0){
 clearInterval(x);
-freeBtn.style.display="block";
+freeBtn.style.display="block"; // reward stays, this appears
 }
 },1000);
 
