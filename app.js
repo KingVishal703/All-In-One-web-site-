@@ -19,7 +19,6 @@ loadCategory("anime",document.querySelector(".tabs button"));
 checkPopup();
 });
 
-// category
 function loadCategory(cat,btn){
 activeCategory=cat;
 activeSub="All";
@@ -31,7 +30,6 @@ renderSubTabs();
 filterData();
 }
 
-// subtabs
 function renderSubTabs(){
 let html="";
 SUB[activeCategory].forEach(name=>{
@@ -47,7 +45,6 @@ btn.classList.add("active");
 filterData();
 }
 
-// filter
 function filterData(){
 current=DB.filter(x=>{
 return x.category===activeCategory &&
@@ -56,7 +53,6 @@ return x.category===activeCategory &&
 render(current);
 }
 
-// render
 function render(list){
 let html="";
 list.forEach((item,i)=>{
@@ -70,7 +66,6 @@ html+=`
 grid.innerHTML=html;
 }
 
-// details
 function openDetails(i){
 let d=current[i];
 
@@ -78,7 +73,12 @@ history.pushState({modal:true},"");
 
 details.innerHTML=`
 <div class="modal-box">
-<div class="back-btn" onclick="closeDetails()">←</div>
+
+<div class="topbar">
+<span onclick="closeDetails()">←</span>
+<span onclick="shareItem(${i})">⤴</span>
+</div>
+
 <img src="${d.image}">
 <h2>${d.title}</h2>
 
@@ -90,33 +90,44 @@ details.innerHTML=`
 
 <div class="button" onclick="verify('${encodeURIComponent(d.token)}')">Watch Now</div>
 <div class="cancel" onclick="closeDetails()">Back</div>
+
 </div>
 `;
 
 details.style.display="block";
 }
 
-// close modal
 function closeDetails(){
 details.style.display="none";
 history.back();
 }
 
-// verify
+function shareItem(i){
+let d=current[i];
+let text=`Watch ${d.title} on Media Vault 🔥`;
+
+if(navigator.share){
+navigator.share({
+title:d.title,
+text:text,
+url:d.token
+});
+}else{
+alert("Sharing not supported");
+}
+}
+
 function verify(link){
 window.location="verify.html?link="+link;
 }
 
-// GLOBAL SEARCH
 function searchContent(){
 let q=search.value.toLowerCase();
-
 let f=DB.filter(x=>x.title.toLowerCase().includes(q));
 current=f;
 render(f);
 }
 
-// popup logic
 function today(){return new Date().toDateString();}
 
 function checkPopup(){
@@ -140,7 +151,6 @@ popup.innerHTML="<h2>Watching Ad...</h2>";
 setTimeout(()=>popup.style.display="none",5000);
 }
 
-// BACK FIX
 window.onpopstate=function(){
 if(details.style.display==="block"){
 details.style.display="none";
