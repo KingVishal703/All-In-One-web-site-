@@ -5,31 +5,10 @@
 <title>Verification</title>
 
 <style>
-body{
-background:black;
-color:white;
-text-align:center;
-font-family:Arial;
-padding-top:100px;
-}
-
-.timer{
-font-size:40px;
-margin:20px;
-}
-
-.button{
-background:#ff0044;
-padding:15px;
-border-radius:10px;
-display:inline-block;
-font-weight:bold;
-}
-
-.fake{
-color:#777;
-margin-top:20px;
-}
+body{background:black;color:white;text-align:center;padding-top:100px;font-family:Arial}
+.timer{font-size:40px;margin:20px}
+.button{background:#ff0044;padding:15px;border-radius:10px;display:inline-block}
+.cancel{margin-top:15px;color:#777;cursor:pointer}
 </style>
 </head>
 <body>
@@ -37,33 +16,24 @@ margin-top:20px;
 <h2>Verification Required</h2>
 <div class="timer" id="t">10</div>
 
-<div class="fake">Buffering secure gateway...</div>
+<div class="button" id="btn" style="display:none" onclick="unlock()">Unlock Content</div>
 
-<div class="button" id="btn" style="display:none" onclick="unlock()">
-Unlock Content
-</div>
+<div class="cancel" onclick="history.back()">Cancel</div>
 
 <script>
 let link=decodeURIComponent(new URLSearchParams(location.search).get("link"));
 let time=10;
-let locked=true;
-
-history.pushState(null,null,location.href);
-window.onpopstate=()=>history.go(1);
 
 let x=setInterval(()=>{
 time--;
 t.innerText=time;
-
 if(time<=0){
 clearInterval(x);
-locked=false;
 btn.style.display="inline-block";
 }
 },1000);
 
 function unlock(){
-if(locked) return;
 window.location=link;
 }
 </script>
