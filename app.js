@@ -1,21 +1,14 @@
 let DB=[];
-let current=[];
 
 fetch("data.json")
 .then(r=>r.json())
-.then(d=>{
-  DB=d;
-  load("anime");
-});
+.then(d=>DB=d);
 
-function load(type){
-current=DB.filter(x=>x.category===type);
-render(current);
-}
+function loadCategory(cat){
+let items=DB.filter(x=>x.category===cat);
 
-function render(list){
 let html="";
-list.forEach(item=>{
+items.forEach(item=>{
 html+=`
 <div class="card">
 <img src="${item.image}">
@@ -25,15 +18,10 @@ Verify & Unlock
 </div>
 </div>`;
 });
+
 grid.innerHTML=html;
 }
 
 function verify(link){
 window.location="verify.html?link="+link;
-}
-
-function searchContent(){
-let q=search.value.toLowerCase();
-let f=current.filter(x=>x.title.toLowerCase().includes(q));
-render(f);
 }
