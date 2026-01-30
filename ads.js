@@ -12,7 +12,7 @@ let rewardAd=null;
 window.addEventListener("load",()=>{
 
 if(window.Adsgram){
-homeAd=window.Adsgram.init({blockId:""});
+homeAd=window.Adsgram.init({blockId:"int-22046"});
 verifyAd=window.Adsgram.init({blockId:""});
 rewardAd=window.Adsgram.init({blockId:""});
 }
