@@ -75,18 +75,18 @@ details.innerHTML=`
 <div class="modal-box">
 
 <div class="topbar">
-<span onclick="closeDetails()">←</span>
-<span onclick="shareItem(${i})">⤴</span>
+<div class="topbtn" onclick="closeDetails()">← Back</div>
+<div class="topbtn" onclick="copyLink('${d.token}')">Share</div>
 </div>
 
 <img src="${d.image}">
-<h2>${d.title}</h2>
+<h2 style="padding:10px">${d.title}</h2>
 
-<p>🌐 Season - ${d.season}</p>
-<p>📀 Total Episode - ${d.episodes}</p>
-<p>⭐ Quality - ${d.quality}</p>
-<p>🎧 Language - ${d.language}</p>
-<p>⚡ Genre - ${d.genre}</p>
+<p style="padding:0 10px">🌐 Season - ${d.season}</p>
+<p style="padding:0 10px">📀 Total Episode - ${d.episodes}</p>
+<p style="padding:0 10px">⭐ Quality - ${d.quality}</p>
+<p style="padding:0 10px">🎧 Language - ${d.language}</p>
+<p style="padding:0 10px">⚡ Genre - ${d.genre}</p>
 
 <div class="button" onclick="verify('${encodeURIComponent(d.token)}')">Watch Now</div>
 <div class="cancel" onclick="closeDetails()">Back</div>
@@ -102,19 +102,15 @@ details.style.display="none";
 history.back();
 }
 
-function shareItem(i){
-let d=current[i];
-let text=`Watch ${d.title} on Media Vault 🔥`;
-
-if(navigator.share){
-navigator.share({
-title:d.title,
-text:text,
-url:d.token
-});
-}else{
-alert("Sharing not supported");
+function copyLink(link){
+navigator.clipboard.writeText(link);
+showToast("Link copied!");
 }
+
+function showToast(msg){
+toast.innerText=msg;
+toast.style.display="block";
+setTimeout(()=>toast.style.display="none",2000);
 }
 
 function verify(link){
