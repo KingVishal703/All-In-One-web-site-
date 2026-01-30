@@ -4,11 +4,15 @@ let current=[];
 fetch("data.json")
 .then(r=>r.json())
 .then(d=>{
-  DB=d;
-  load("anime");
+DB=d;
+load("anime",document.querySelector(".tabs button"));
+setTimeout(()=>loader.style.display="none",800);
 });
 
-function load(type){
+function load(type,btn){
+document.querySelectorAll(".tabs button").forEach(b=>b.classList.remove("active"));
+btn.classList.add("active");
+
 current=DB.filter(x=>x.category===type);
 render(current);
 }
@@ -28,12 +32,12 @@ Verify & Unlock
 grid.innerHTML=html;
 }
 
-function verify(link){
-window.location="verify.html?link="+link;
-}
-
 function searchContent(){
 let q=search.value.toLowerCase();
 let f=current.filter(x=>x.title.toLowerCase().includes(q));
 render(f);
+}
+
+function verify(link){
+window.location="verify.html?link="+link;
 }
