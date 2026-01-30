@@ -1,27 +1,62 @@
-const AD_ENABLED = true;
-const SECOND_POPUP_DELAY = 2 * 60 * 60 * 1000; // 2 hours
+// SUB CATEGORY CONFIG
+const SUB = {
+anime:["All","Series","Movies","OVA"],
+movies:["All","Hollywood","Bollywood","Tollywood"],
+adult:["All","Desi","English","Cosplay","Japanese"]
+};
 
 let DB=[];
 let current=[];
 let activeCategory="anime";
+let activeSub="All";
 
+// load database
 fetch("data.json")
 .then(r=>r.json())
 .then(d=>{
 DB=d;
 loadCategory("anime",document.querySelector(".tabs button"));
-checkPopup();
 });
 
+// main category
 function loadCategory(cat,btn){
 activeCategory=cat;
+activeSub="All";
+
 document.querySelectorAll(".tabs button").forEach(b=>b.classList.remove("active"));
 btn.classList.add("active");
 
-current=DB.filter(x=>x.category===cat);
+renderSubTabs();
+filterData();
+}
+
+// create sub buttons
+function renderSubTabs(){
+let html="";
+SUB[activeCategory].forEach(name=>{
+html+=`<button onclick="setSub('${name}',this)" ${name==="All"?'class="active"':''}>${name}</button>`;
+});
+subtabs.innerHTML=html;
+}
+
+// sub filter
+function setSub(name,btn){
+activeSub=name;
+document.querySelectorAll(".subtabs button").forEach(b=>b.classList.remove("active"));
+btn.classList.add("active");
+filterData();
+}
+
+// filter database
+function filterData(){
+current=DB.filter(x=>{
+return x.category===activeCategory &&
+(activeSub==="All" || x.sub===activeSub);
+});
 render(current);
 }
 
+// render grid
 function render(list){
 let html="";
 list.forEach((item,i)=>{
@@ -37,8 +72,11 @@ Watch Now
 grid.innerHTML=html;
 }
 
+// details modal
 function openDetails(i){
 let d=current[i];
+
+history.pushState({modal:true},"");
 
 details.innerHTML=`
 <div class="modal-box">
@@ -55,59 +93,34 @@ details.innerHTML=`
 Watch Now
 </div>
 
-<div class="cancel" onclick="closeDetails()">Cancel</div>
+<div class="cancel" onclick="closeDetails()">Back</div>
 </div>
 `;
 
 details.style.display="block";
 }
 
+// close modal
 function closeDetails(){
 details.style.display="none";
+history.back();
 }
 
+// verify
 function verify(link){
 window.location="verify.html?link="+link;
 }
 
+// search
 function searchContent(){
 let q=search.value.toLowerCase();
 let f=current.filter(x=>x.title.toLowerCase().includes(q));
 render(f);
 }
 
-function today(){
-return new Date().toDateString();
+// BACK BUTTON FIX
+window.onpopstate=function(e){
+if(details.style.display==="block"){
+details.style.display="none";
 }
-
-function checkPopup(){
-if(!AD_ENABLED) return;
-
-let data=JSON.parse(localStorage.getItem("popupData")||"{}");
-let now=Date.now();
-
-if(data.day!==today()){
-data={day:today(),count:0,last:0};
-}
-
-if(data.count===0){
-showPopup(data);
-}
-else if(data.count===1 && now-data.last>SECOND_POPUP_DELAY){
-showPopup(data);
-}
-
-localStorage.setItem("popupData",JSON.stringify(data));
-}
-
-function showPopup(data){
-popup.style.display="flex";
-data.count++;
-data.last=Date.now();
-localStorage.setItem("popupData",JSON.stringify(data));
-}
-
-function watchAd(){
-popup.innerHTML="<h2>Watching Ad...</h2>";
-setTimeout(()=>popup.style.display="none",5000);
-}
+};
