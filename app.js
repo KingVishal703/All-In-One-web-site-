@@ -17,8 +17,23 @@ fetch("data.json")
 DB=d;
 loadCategory("anime",document.querySelector(".tabs button"));
 checkPopup();
+checkDeepLink();
 });
 
+// deep link open
+function checkDeepLink(){
+let params=new URLSearchParams(location.search);
+let id=params.get("id");
+if(!id) return;
+
+let index=DB.findIndex(x=>x.id==id);
+if(index!==-1){
+current=[DB[index]];
+openDetails(0);
+}
+}
+
+// category
 function loadCategory(cat,btn){
 activeCategory=cat;
 activeSub="All";
@@ -66,6 +81,7 @@ html+=`
 grid.innerHTML=html;
 }
 
+// details
 function openDetails(i){
 let d=current[i];
 
@@ -76,7 +92,7 @@ details.innerHTML=`
 
 <div class="topbar">
 <div class="topbtn" onclick="closeDetails()">← Back</div>
-<div class="topbtn" onclick="copyLink('${d.token}')">Share</div>
+<div class="topbtn" onclick="shareItem('${d.id}')">Share</div>
 </div>
 
 <img src="${d.image}">
@@ -102,9 +118,11 @@ details.style.display="none";
 history.back();
 }
 
-function copyLink(link){
+// SHARE SAFE LINK
+function shareItem(id){
+let link=location.origin+location.pathname+"?id="+id;
 navigator.clipboard.writeText(link);
-showToast("Link copied!");
+showToast("Share link copied!");
 }
 
 function showToast(msg){
