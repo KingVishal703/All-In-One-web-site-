@@ -14,13 +14,10 @@ fetch("data.json")
 .then(d=>{
 DB=d;
 loadCategory("anime",document.querySelector(".tabs button"));
-checkPopup();
-runPopupAd();
 startAutoAds();
 checkDeepLink();
 });
 
-// deep link
 function checkDeepLink(){
 let params=new URLSearchParams(location.search);
 let id=params.get("id");
@@ -136,16 +133,6 @@ let q=search.value.toLowerCase();
 let f=DB.filter(x=>x.title.toLowerCase().includes(q));
 current=f;
 render(f);
-}
-
-function checkPopup(){
-popup.style.display="flex";
-}
-
-function watchAd(){
-runRewardAd(()=>{
-popup.style.display="none";
-});
 }
 
 window.onpopstate=function(){
