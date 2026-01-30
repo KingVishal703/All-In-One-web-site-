@@ -5,50 +5,92 @@ reward:true,
 autoInterval:600000 // 10 min
 };
 
-/* ===== PASTE YOUR BLOCK IDS HERE ===== */
+/* ===== YOUR BLOCK IDS ===== */
 const IDS = {
-home:"int-22046",      // int-XXXXX
-verify:"int-22056",    // int-XXXXX
-reward:"22055"     // XXXXX
+home:"int-22046",
+verify:"int-22056",
+reward:"22055"
 };
 
 let homeAd=null;
 let verifyAd=null;
 let rewardAd=null;
 
-function safeInit(id){
-if(!id || id.trim()==="") return null;
+/* ============================= */
+/* WAIT UNTIL ADSGRAM LOADS */
+/* ============================= */
+
+function waitForAdsgram(callback){
+let tries=0;
+
+let timer=setInterval(()=>{
+tries++;
+
+if(window.Adsgram){
+clearInterval(timer);
+callback();
+}
+
+if(tries>20){
+clearInterval(timer);
+console.log("Adsgram failed to load");
+}
+},300);
+}
+
+/* ============================= */
+/* INIT ADS SAFELY */
+/* ============================= */
+
+function initAds(){
+
+function safe(id){
 try{
 return window.Adsgram.init({blockId:id});
 }catch(e){
-console.log("Ad init failed:",e);
+console.log("Ad init error:",id,e);
 return null;
 }
 }
 
-window.addEventListener("load",()=>{
+homeAd = safe(IDS.home);
+verifyAd = safe(IDS.verify);
+rewardAd = safe(IDS.reward);
 
-if(window.Adsgram){
-homeAd = safeInit(IDS.home);
-verifyAd = safeInit(IDS.verify);
-rewardAd = safeInit(IDS.reward);
+console.log("Ads initialized");
 }
 
-});
+/* start waiting */
+waitForAdsgram(initAds);
 
-/* ===== HOME INTERSTITIAL ===== */
+/* ============================= */
+/* HOME INTERSTITIAL */
+/* ============================= */
+
 function runHomeAd(){
 if(!ADS.homeInterstitial || !homeAd) return;
-homeAd.show().catch(()=>{});
+
+homeAd.show()
+.then(()=>console.log("Home ad done"))
+.catch(()=>console.log("Home ad error"));
 }
 
-/* ===== VERIFY INTERSTITAL ===== */
+/* ============================= */
+/* VERIFY INTERSTITIAL */
+/* ============================= */
+
 function runVerifyAd(){
 if(!ADS.verifyInterstitial || !verifyAd) return;
-verifyAd.show().catch(()=>{});
+
+verifyAd.show()
+.then(()=>console.log("Verify ad done"))
+.catch(()=>console.log("Verify ad error"));
 }
 
-/* ===== REWARD AD ===== */
+/* ============================= */
+/* REWARD AD */
+/* ============================= */
+
 function runReward(callback){
 if(!ADS.reward || !rewardAd){
 callback();
@@ -56,11 +98,20 @@ return;
 }
 
 rewardAd.show()
-.then(()=>callback())
-.catch(()=>callback());
+.then(()=>{
+console.log("Reward success");
+callback();
+})
+.catch(()=>{
+console.log("Reward error");
+callback();
+});
 }
 
-/* ===== AUTO LOOP ===== */
+/* ============================= */
+/* AUTO LOOP */
+/* ============================= */
+
 function startAutoHomeAds(){
 if(!ADS.homeInterstitial) return;
 
