@@ -6,50 +6,56 @@ auto:true,
 autoInterval:600000
 };
 
-// POPUP AD
+// load SDK once
+let popupAd = null;
+let verifyAd = null;
+let rewardAd = null;
+let autoAd = null;
+
+window.addEventListener("load", () => {
+
+if(window.Adsgram){
+
+popupAd = window.Adsgram.init({ blockId: "int-22034" });
+verifyAd = window.Adsgram.init({ blockId: "int-22035" });
+rewardAd = window.Adsgram.init({ blockId: "22036" });
+autoAd = window.Adsgram.init({ blockId: "int-22037" });
+
+}
+
+});
+
+// POPUP
 function runPopupAd(){
-if(!ADS.popup) return;
+if(!ADS.popup || !popupAd) return;
 
-const id = "int-22034";
-console.log("Popup ad:", id);
-
-/* paste Adsgram popup SDK call here */
+popupAd.show().catch(()=>{});
 }
 
-// VERIFY INTERSTITIAL
+// VERIFY
 function runVerifyInterstitial(){
-if(!ADS.verifyInterstitial) return;
+if(!ADS.verifyInterstitial || !verifyAd) return;
 
-const id = "int-22035";
-console.log("Verify ad:", id);
-
-/* paste Adsgram verify SDK call here */
+verifyAd.show().catch(()=>{});
 }
 
-// REWARD AD
+// REWARD
 function runRewardAd(callback){
-if(!ADS.reward){
+if(!ADS.reward || !rewardAd){
 callback();
 return;
 }
 
-const id = "22036";
-console.log("Reward ad:", id);
-
-/* paste Adsgram reward SDK here */
-
-setTimeout(callback,3000);
+rewardAd.show()
+.then(()=>callback())
+.catch(()=>callback());
 }
 
-// AUTO AD
+// AUTO
 function startAutoAds(){
-if(!ADS.auto) return;
+if(!ADS.auto || !autoAd) return;
 
 setInterval(()=>{
-const id = "int-22037";
-console.log("Auto ad:", id);
-
-/* paste auto SDK here */
-
+autoAd.show().catch(()=>{});
 },ADS.autoInterval);
 }
