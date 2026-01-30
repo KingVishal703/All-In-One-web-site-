@@ -7,8 +7,6 @@
 </head>
 <body>
 
-<div class="loader" id="loader">Loading...</div>
-
 <header>🔥 Media Vault</header>
 
 <input id="search" placeholder="Search..." oninput="searchContent()">
@@ -19,14 +17,23 @@
 <button onclick="load('adult',this)">Adult</button>
 </div>
 
+<!-- EXTRA CATEGORY BAR -->
+<div class="subtabs" id="subtabs">
+<button>All</button>
+<button>Language</button>
+<button>Hollywood</button>
+<button>Bollywood</button>
+<button>Japanese</button>
+<button>Cosplay</button>
+</div>
+
 <div class="ad">BANNER AD SLOT</div>
 
 <div id="grid"></div>
 
 <div class="ad">INTERSTITIAL AD SLOT</div>
 
-<script src="app.js"></script>
-  <div id="details" class="modal"></div>
+<div id="details" class="modal"></div>
 
 <div id="popup" class="popup">
 <div class="popup-box">
@@ -35,5 +42,7 @@
 <div class="button" onclick="watchAd()">Watch Ad</div>
 </div>
 </div>
+
+<script src="app.js"></script>
 </body>
 </html>
