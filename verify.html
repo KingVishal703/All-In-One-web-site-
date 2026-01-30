@@ -68,6 +68,11 @@ transition:0.2s;
 
 .secondary{background:#222;color:#aaa}
 
+.back{
+background:#333;
+color:#aaa;
+}
+
 .tip{font-size:13px;color:#777;margin-top:10px}
 
 .loader{
@@ -106,6 +111,10 @@ This helps support the platform ❤️
 ⚡ Get File
 </div>
 
+<div class="button back" onclick="goHome()">
+⬅ Back to Home
+</div>
+
 <div class="loader" id="loader"></div>
 
 <div class="tip">
@@ -124,7 +133,7 @@ runVerifyAd();
 },800);
 
 let link=new URLSearchParams(location.search).get("link");
-let time=25;
+let time=30;
 
 let x=setInterval(()=>{
 time--;
@@ -132,9 +141,8 @@ t.innerText=time;
 
 if(time<=0){
 clearInterval(x);
-freeBtn.style.display="block"; // ✅ only show new button
+freeBtn.style.display="block";
 }
-
 },1000);
 
 function watchReward(){
@@ -147,6 +155,10 @@ go();
 
 function go(){
 window.location=decodeURIComponent(link);
+}
+
+function goHome(){
+window.location="index.html";
 }
 
 </script>
