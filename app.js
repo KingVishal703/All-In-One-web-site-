@@ -9,28 +9,10 @@ let current=[];
 let activeCategory="anime";
 let activeSub="All";
 
-const FALLBACK=[{
-id:"demo1",
-title:"Demo Content",
-image:"https://via.placeholder.com/300x400?text=Demo",
-category:"anime",
-sub:"All",
-season:"1",
-episodes:"12",
-quality:"720p",
-language:"Hindi",
-genre:"Demo",
-token:"#"
-}];
-
 fetch("data.json")
 .then(r=>r.json())
 .then(d=>{
 DB=d;
-startApp();
-})
-.catch(()=>{
-DB=FALLBACK;
 startApp();
 });
 
@@ -39,7 +21,7 @@ loadCategory("anime",document.querySelector(".tabs button"));
 runSlider();
 }
 
-// ---------------- SEARCH ----------------
+/* SEARCH */
 
 function searchContent(){
 let q=document.getElementById("search").value.toLowerCase();
@@ -47,7 +29,7 @@ let result=DB.filter(x=>x.title.toLowerCase().includes(q));
 render(result);
 }
 
-// ---------------- CATEGORY ----------------
+/* CATEGORY */
 
 function loadCategory(cat,btn){
 activeCategory=cat;
@@ -84,7 +66,7 @@ return x.category===activeCategory &&
 render(current);
 }
 
-// ---------------- GRID ----------------
+/* GRID */
 
 function render(list){
 if(!list.length){
@@ -104,7 +86,7 @@ html+=`
 grid.innerHTML=html;
 }
 
-// ---------------- DETAILS ----------------
+/* DETAILS */
 
 function openDetails(i){
 let d=current[i];
@@ -144,11 +126,10 @@ function verify(link){
 window.location="verify.html?link="+link;
 }
 
-// ---------------- TRENDING SLIDER ----------------
+/* SLIDER */
 
 function runSlider(){
 let slider=document.getElementById("slider");
-if(!slider) return;
 
 let trending=DB.filter(x=>x.category===activeCategory).slice(0,5);
 if(!trending.length) return;
@@ -156,9 +137,16 @@ if(!trending.length) return;
 let i=0;
 
 function show(){
+let item=trending[i];
+
 slider.innerHTML=`
-<div class="slide"
-style="background-image:url('${trending[i].image}')">
+<div class="slide" style="background-image:url('${item.image}')">
+
+<div class="slide-overlay">
+<div class="slide-title">${item.title}</div>
+<div class="slide-btn" onclick="openDetails(${i})">Watch Now</div>
+</div>
+
 </div>`;
 }
 
