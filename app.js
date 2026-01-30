@@ -9,41 +9,45 @@ let current=[];
 let activeCategory="anime";
 let activeSub="All";
 
-// fallback data (so app never blank)
-const FALLBACK=[
-{
+const FALLBACK=[{
 id:"demo1",
 title:"Demo Content",
 image:"https://via.placeholder.com/300x400?text=Demo",
 category:"anime",
 sub:"All",
 season:"1",
+episodes:"12",
+quality:"720p",
+language:"Hindi",
+genre:"Demo",
 token:"#"
-}
-];
+}];
 
 fetch("data.json")
-.then(r=>{
-if(!r.ok) throw "missing";
-return r.json();
-})
+.then(r=>r.json())
 .then(d=>{
 DB=d;
 startApp();
 })
 .catch(()=>{
-console.log("data.json missing — using fallback");
 DB=FALLBACK;
 startApp();
 });
 
 function startApp(){
 loadCategory("anime",document.querySelector(".tabs button"));
-runHomeAd();
-startAutoHomeAds();
+runSlider();
 }
 
-// ----------------------------
+// ---------------- SEARCH ----------------
+
+function searchContent(){
+let q=document.getElementById("search").value.toLowerCase();
+let result=DB.filter(x=>x.title.toLowerCase().includes(q));
+render(result);
+}
+
+// ---------------- CATEGORY ----------------
 
 function loadCategory(cat,btn){
 activeCategory=cat;
@@ -54,6 +58,7 @@ btn.classList.add("active");
 
 renderSubTabs();
 filterData();
+runSlider();
 }
 
 function renderSubTabs(){
@@ -79,6 +84,8 @@ return x.category===activeCategory &&
 render(current);
 }
 
+// ---------------- GRID ----------------
+
 function render(list){
 if(!list.length){
 grid.innerHTML=`<h3 style="padding:20px;color:#777">No content</h3>`;
@@ -97,19 +104,32 @@ html+=`
 grid.innerHTML=html;
 }
 
+// ---------------- DETAILS ----------------
+
 function openDetails(i){
 let d=current[i];
 
 details.innerHTML=`
 <div class="modal-box">
+
 <div class="topbar">
 <div class="topbtn" onclick="closeDetails()">← Back</div>
 </div>
 
 <img src="${d.image}">
+
 <h2 style="padding:10px">${d.title}</h2>
 
-<div class="button" onclick="verify('${encodeURIComponent(d.token)}')">Watch Now</div>
+<p style="padding:0 10px">🌐 Season - ${d.season||"-"}</p>
+<p style="padding:0 10px">📀 Episodes - ${d.episodes||"-"}</p>
+<p style="padding:0 10px">⭐ Quality - ${d.quality||"-"}</p>
+<p style="padding:0 10px">🎧 Language - ${d.language||"-"}</p>
+<p style="padding:0 10px">⚡ Genre - ${d.genre||"-"}</p>
+
+<div class="button" onclick="verify('${encodeURIComponent(d.token)}')">
+Watch Now
+</div>
+
 </div>
 `;
 
@@ -122,4 +142,31 @@ details.style.display="none";
 
 function verify(link){
 window.location="verify.html?link="+link;
+}
+
+// ---------------- TRENDING SLIDER ----------------
+
+function runSlider(){
+let slider=document.getElementById("slider");
+if(!slider) return;
+
+let trending=DB.filter(x=>x.category===activeCategory).slice(0,5);
+if(!trending.length) return;
+
+let i=0;
+
+function show(){
+slider.innerHTML=`
+<div class="slide"
+style="background-image:url('${trending[i].image}')">
+</div>`;
+}
+
+show();
+
+clearInterval(window.sliderInt);
+window.sliderInt=setInterval(()=>{
+i=(i+1)%trending.length;
+show();
+},3000);
 }
