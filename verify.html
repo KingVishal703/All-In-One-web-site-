@@ -4,38 +4,54 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Verification</title>
 
+<script src="ads.js"></script>
+
 <style>
-body{background:black;color:white;text-align:center;padding-top:100px;font-family:Arial}
+body{background:black;color:white;text-align:center;padding-top:80px;font-family:Arial}
 .timer{font-size:40px;margin:20px}
-.button{background:#ff0044;padding:15px;border-radius:10px;display:inline-block}
-.cancel{margin-top:15px;color:#777;cursor:pointer}
+.button{background:#ff0044;padding:15px;border-radius:10px;margin:10px}
 </style>
 </head>
+
 <body>
 
-<h2>Verification Required</h2>
+<h2>Verification</h2>
+
 <div class="timer" id="t">10</div>
 
-<div class="button" id="btn" style="display:none" onclick="unlock()">Unlock Content</div>
+<div id="rewardBtn" class="button" onclick="watchReward()">Watch Ad To Unlock ⚡</div>
 
-<div class="cancel" onclick="history.back()">Cancel</div>
+<div id="freeBtn" class="button" style="display:none" onclick="go()">Get File</div>
 
 <script>
-let link=decodeURIComponent(new URLSearchParams(location.search).get("link"));
+
+runVerifyAd();
+
+let link=new URLSearchParams(location.search).get("link");
 let time=10;
 
 let x=setInterval(()=>{
 time--;
 t.innerText=time;
+
 if(time<=0){
 clearInterval(x);
-btn.style.display="inline-block";
+rewardBtn.style.display="none";
+freeBtn.style.display="block";
 }
+
 },1000);
 
-function unlock(){
+function watchReward(){
+runReward(()=>{
+go();
+});
+}
+
+function go(){
 window.location=link;
 }
+
 </script>
 
 </body>
