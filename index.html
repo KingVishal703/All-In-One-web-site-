@@ -2,25 +2,28 @@
 <html>
 <head>
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Media Vault</title>
+<title>Media Vault Pro</title>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
 <header>
-<h1>🔥 Media Vault</h1>
-<input id="search" placeholder="Search...">
+🔥 Media Vault
+<input id="search" placeholder="Search..." oninput="searchContent()">
 </header>
 
-<div class="home-grid">
-
-<a href="anime.html" class="home-btn">🎌 Anime</a>
-<a href="movies.html" class="home-btn">🎬 Movies</a>
-<a href="adult.html" class="home-btn">🔞 Adult</a>
-
+<div class="tabs">
+<button onclick="load('anime')">Anime</button>
+<button onclick="load('movies')">Movies</button>
+<button onclick="load('adult')">Adult</button>
 </div>
 
 <div class="ad">BANNER AD SLOT</div>
 
+<div id="grid"></div>
+
+<div class="ad">INTERSTITIAL AD SLOT</div>
+
+<script src="app.js"></script>
 </body>
 </html>
