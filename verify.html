@@ -3,7 +3,6 @@
 <head>
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Verification</title>
-
 <style>
 body{background:black;color:white;text-align:center;padding-top:100px;font-family:Arial}
 .timer{font-size:40px;margin:20px}
@@ -14,13 +13,10 @@ body{background:black;color:white;text-align:center;padding-top:100px;font-famil
 
 <h2>Verification Required</h2>
 <div class="timer" id="t">10</div>
-
-<div class="button" id="btn" style="display:none" onclick="unlock()">
-Unlock Content
-</div>
+<div class="button" id="btn" style="display:none" onclick="go()">Return to Bot</div>
 
 <script>
-let link=decodeURIComponent(new URLSearchParams(location.search).get("link"));
+let token=new URLSearchParams(location.search).get("token");
 let time=10;
 
 let x=setInterval(()=>{
@@ -32,8 +28,8 @@ btn.style.display="block";
 }
 },1000);
 
-function unlock(){
-window.location=link;
+function go(){
+window.location="https://t.me/YOUR_BOT?start="+token;
 }
 </script>
 
