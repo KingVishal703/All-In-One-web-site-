@@ -9,7 +9,6 @@
 <script src="ads.js"></script>
 
 <style>
-
 body{
 margin:0;
 background:#070707;
@@ -37,16 +36,9 @@ from{opacity:0;transform:scale(0.9)}
 to{opacity:1;transform:scale(1)}
 }
 
-h2{
-margin-top:0;
-color:#ff0044;
-}
+h2{color:#ff0044;margin-top:0}
 
-.desc{
-color:#aaa;
-margin-bottom:20px;
-font-size:14px;
-}
+.desc{color:#aaa;margin-bottom:20px;font-size:14px}
 
 .timer{
 font-size:42px;
@@ -72,20 +64,11 @@ font-weight:bold;
 transition:0.2s;
 }
 
-.button:active{
-transform:scale(0.95);
-}
+.button:active{transform:scale(0.95)}
 
-.secondary{
-background:#222;
-color:#aaa;
-}
+.secondary{background:#222;color:#aaa}
 
-.tip{
-font-size:13px;
-color:#777;
-margin-top:10px;
-}
+.tip{font-size:13px;color:#777;margin-top:10px}
 
 .loader{
 width:30px;
@@ -98,10 +81,7 @@ animation:spin 1s linear infinite;
 display:none;
 }
 
-@keyframes spin{
-to{transform:rotate(360deg)}
-}
-
+@keyframes spin{to{transform:rotate(360deg)}}
 </style>
 </head>
 
@@ -137,7 +117,11 @@ Do not close early for unlock.
 
 <script>
 
-runVerifyAd(); // auto interstitial on open
+Telegram.WebApp.ready();
+
+setTimeout(()=>{
+runVerifyAd();
+},800);
 
 let link=new URLSearchParams(location.search).get("link");
 let time=10;
@@ -151,7 +135,6 @@ clearInterval(x);
 rewardBtn.style.display="none";
 freeBtn.style.display="block";
 }
-
 },1000);
 
 function watchReward(){
