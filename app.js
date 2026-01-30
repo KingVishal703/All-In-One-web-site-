@@ -1,24 +1,25 @@
-// SUB CATEGORY CONFIG
-const SUB = {
+const SUB={
 anime:["All","Series","Movies","OVA"],
 movies:["All","Hollywood","Bollywood","Tollywood"],
 adult:["All","Desi","English","Cosplay","Japanese"]
 };
+
+const SECOND_POPUP_DELAY=2*60*60*1000;
 
 let DB=[];
 let current=[];
 let activeCategory="anime";
 let activeSub="All";
 
-// load database
 fetch("data.json")
 .then(r=>r.json())
 .then(d=>{
 DB=d;
 loadCategory("anime",document.querySelector(".tabs button"));
+checkPopup();
 });
 
-// main category
+// category
 function loadCategory(cat,btn){
 activeCategory=cat;
 activeSub="All";
@@ -30,7 +31,7 @@ renderSubTabs();
 filterData();
 }
 
-// create sub buttons
+// subtabs
 function renderSubTabs(){
 let html="";
 SUB[activeCategory].forEach(name=>{
@@ -39,7 +40,6 @@ html+=`<button onclick="setSub('${name}',this)" ${name==="All"?'class="active"':
 subtabs.innerHTML=html;
 }
 
-// sub filter
 function setSub(name,btn){
 activeSub=name;
 document.querySelectorAll(".subtabs button").forEach(b=>b.classList.remove("active"));
@@ -47,7 +47,7 @@ btn.classList.add("active");
 filterData();
 }
 
-// filter database
+// filter
 function filterData(){
 current=DB.filter(x=>{
 return x.category===activeCategory &&
@@ -56,7 +56,7 @@ return x.category===activeCategory &&
 render(current);
 }
 
-// render grid
+// render
 function render(list){
 let html="";
 list.forEach((item,i)=>{
@@ -64,15 +64,13 @@ html+=`
 <div class="card">
 <img src="${item.image}" onclick="openDetails(${i})">
 <h3>${item.title}</h3>
-<div class="button" onclick="verify('${encodeURIComponent(item.token)}')">
-Watch Now
-</div>
+<div class="button" onclick="verify('${encodeURIComponent(item.token)}')">Watch Now</div>
 </div>`;
 });
 grid.innerHTML=html;
 }
 
-// details modal
+// details
 function openDetails(i){
 let d=current[i];
 
@@ -80,6 +78,7 @@ history.pushState({modal:true},"");
 
 details.innerHTML=`
 <div class="modal-box">
+<div class="back-btn" onclick="closeDetails()">←</div>
 <img src="${d.image}">
 <h2>${d.title}</h2>
 
@@ -89,10 +88,7 @@ details.innerHTML=`
 <p>🎧 Language - ${d.language}</p>
 <p>⚡ Genre - ${d.genre}</p>
 
-<div class="button" onclick="verify('${encodeURIComponent(d.token)}')">
-Watch Now
-</div>
-
+<div class="button" onclick="verify('${encodeURIComponent(d.token)}')">Watch Now</div>
 <div class="cancel" onclick="closeDetails()">Back</div>
 </div>
 `;
@@ -111,15 +107,41 @@ function verify(link){
 window.location="verify.html?link="+link;
 }
 
-// search
+// GLOBAL SEARCH
 function searchContent(){
 let q=search.value.toLowerCase();
-let f=current.filter(x=>x.title.toLowerCase().includes(q));
+
+let f=DB.filter(x=>x.title.toLowerCase().includes(q));
+current=f;
 render(f);
 }
 
-// BACK BUTTON FIX
-window.onpopstate=function(e){
+// popup logic
+function today(){return new Date().toDateString();}
+
+function checkPopup(){
+let data=JSON.parse(localStorage.getItem("popupData")||"{}");
+let now=Date.now();
+
+if(data.day!==today()){
+data={day:today(),count:0,last:0};
+}
+
+if(data.count===0 || (data.count===1 && now-data.last>SECOND_POPUP_DELAY)){
+popup.style.display="flex";
+data.count++;
+data.last=now;
+localStorage.setItem("popupData",JSON.stringify(data));
+}
+}
+
+function watchAd(){
+popup.innerHTML="<h2>Watching Ad...</h2>";
+setTimeout(()=>popup.style.display="none",5000);
+}
+
+// BACK FIX
+window.onpopstate=function(){
 if(details.style.display==="block"){
 details.style.display="none";
 }
