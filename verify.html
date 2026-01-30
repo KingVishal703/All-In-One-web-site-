@@ -100,17 +100,17 @@ This helps support the platform ❤️
 
 <div class="timer" id="t">30</div>
 
-<!-- Reward button always visible -->
+<!-- Reward button ALWAYS visible -->
 <div id="rewardBtn" class="button" onclick="watchReward()">
 🎥 Watch Ad To Unlock
 </div>
 
-<!-- Get file appears after timer -->
+<!-- Get file button hidden initially -->
 <div id="freeBtn" class="button secondary" style="display:none" onclick="go()">
 ⚡ Get File
 </div>
 
-<!-- Back button always visible -->
+<!-- Back button -->
 <div class="button back" onclick="goHome()">
 ⬅ Back to Home
 </div>
@@ -128,6 +128,7 @@ Do not close early for unlock.
 
 Telegram.WebApp.ready();
 
+/* auto verify ad */
 setTimeout(()=>{
 runVerifyAd();
 },800);
@@ -135,20 +136,28 @@ runVerifyAd();
 let link=new URLSearchParams(location.search).get("link");
 let time=30;
 
+const timerText = document.getElementById("t");
+const freeBtn = document.getElementById("freeBtn");
+
+/* countdown */
 let x=setInterval(()=>{
 time--;
-t.innerText=time;
+timerText.innerText=time;
 
 if(time<=0){
 clearInterval(x);
-freeBtn.style.display="block"; // reward stays, this appears
+
+/* ONLY show Get File
+   DO NOT touch reward button */
+freeBtn.style.display="block";
 }
 },1000);
 
 function watchReward(){
-loader.style.display="block";
+document.getElementById("loader").style.display="block";
+
 runReward(()=>{
-loader.style.display="none";
+document.getElementById("loader").style.display="none";
 go();
 });
 }
