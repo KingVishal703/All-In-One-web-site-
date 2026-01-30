@@ -7,7 +7,7 @@ autoInterval:600000 // 10 min
 
 /* ===== PASTE YOUR BLOCK IDS HERE ===== */
 const IDS = {
-home:"int-22046",      // int-XXXXX
+home:"int-18636",      // int-XXXXX
 verify:"",    // int-XXXXX
 reward:""     // XXXXX
 };
