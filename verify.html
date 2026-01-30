@@ -124,7 +124,7 @@ runVerifyAd();
 },800);
 
 let link=new URLSearchParams(location.search).get("link");
-let time=10;
+let time=25;
 
 let x=setInterval(()=>{
 time--;
@@ -132,9 +132,9 @@ t.innerText=time;
 
 if(time<=0){
 clearInterval(x);
-rewardBtn.style.display="none";
-freeBtn.style.display="block";
+freeBtn.style.display="block"; // ✅ only show new button
 }
+
 },1000);
 
 function watchReward(){
