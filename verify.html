@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Verification</title>
+<style>
+body{background:black;color:white;text-align:center;padding-top:100px;font-family:Arial}
+.timer{font-size:40px;margin:20px}
+.button{background:#ff0044;padding:15px;border-radius:8px}
+</style>
+</head>
+<body>
+
+<h2>Verification Required</h2>
+<div class="timer" id="t">10</div>
+<div class="button" id="btn" style="display:none" onclick="go()">Return to Bot</div>
+
+<script>
+let token=new URLSearchParams(location.search).get("token");
+let time=10;
+
+let x=setInterval(()=>{
+time--;
+t.innerText=time;
+if(time<=0){
+clearInterval(x);
+btn.style.display="block";
+}
+},1000);
+
+function go(){
+window.location="https://t.me/YOUR_BOT?start="+token;
+}
+</script>
+
+</body>
+</html>
