@@ -1,7 +1,7 @@
 const SUB={
 anime:["All","Series","Movies","OVA"],
 movies:["All","Hollywood","Bollywood","Tollywood"],
-adult:["All","Desi","English","Cosplay","Japanese"]
+adult:["All","Desi", "Web_series","English","Cosplay","Japanese"]
 };
 
 let DB=[];
