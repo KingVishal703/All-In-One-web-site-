@@ -108,5 +108,40 @@
 "language":"Hindi",
 "genre":"18+ Adult 🔞",
 "token":"https://x-waifu-bot.blogspot.com/2025/12/x-waifu-bot.html?id=Z2V0LTYwMTQyMTY5OTA1NTYtMTIwMjg0MzM5ODExMTI"
-}
+},
+
+      {
+"id":"Bm01",
+"title":"Jamai Badal 2019",
+"image":"https://i.ibb.co/MxmntHn6/photo-2026-02-23-05-33-51-7610027538445762584.jpg",
+"category":"Movies",
+"sub":"Bollywood",
+"quality":"HDRip",
+"language":"Bengali",
+"token":"https://telegram.me/Movies_k_Search_Bot?start=getfile-Jamai-Badal-2019"
+      },
+
+      {
+"id":"Hmws01",
+"title":"A Knight of the Seven Kingdoms",
+"image":"https://i.ibb.co/5P0SkGB/photo-2026-02-23-08-05-38-7610028062431772700.jpg",
+"category":"Movies",
+"sub":"Hollywood",
+"season":"1",
+"episodes":"?",
+"quality":"HDRip",
+"language":"Hindi English",
+"token":"https://telegram.me/Movies_k_Search_Bot?start=getfile-A-Knight-Of-The-Seven-Kingdoms-S01"
+},
+
+        {
+"id":"Bm02",
+"title":"Naya Daur 1957",
+"image":"https://i.ibb.co/35R35sVB/photo-2026-02-23-05-33-27-7610029479770980376.jpg",
+"category":"Movies",
+"sub":"Bollywood",
+"quality":"HDRip",
+"language":"Hindi",
+"token":"https://telegram.me/Movies_k_Search_Bot?start=getfile-Naya-Daur-1957"
+      }
 ]
