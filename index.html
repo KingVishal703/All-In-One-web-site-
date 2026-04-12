@@ -1,6 +1,20 @@
 <!DOCTYPE html>
 <html>
 <head>
+
+  <script>
+  const params = new URLSearchParams(window.location.search);
+  const id = params.get("id");
+
+  if (id && id.startsWith("blg2")) {
+    if (window.location.hash.includes("tgWebAppData")) {
+      window.location.href = "/step1.html?id=" + id + window.location.hash;
+    } else {
+      window.location.href = "/step1.html?id=" + id;
+    }
+  }
+  </script>
+  
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Media Vault</title>
 
