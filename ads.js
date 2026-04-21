@@ -1,5 +1,5 @@
 const ADS = {
-homeInterstitial:true,
+homeInterstitial:false,
 verifyInterstitial:true,
 reward:true,
 autoInterval:600000
