@@ -5,9 +5,9 @@ reward:true,
 autoInterval:600000
 };
 
-//int-22046
+//
 const IDS = {
-home:"",
+home:"int-22046",
 verify:"int-22056",
 reward:"22055"
 };
