@@ -6,12 +6,24 @@
   const params = new URLSearchParams(window.location.search);
   const id = params.get("id");
 
+  // Only run if valid id
   if (id && id.startsWith("blg2")) {
-    if (window.location.hash.includes("tgWebAppData")) {
-      window.location.href = "/step1.html?id=" + id + window.location.hash;
-    } else {
-      window.location.href = "/step1.html?id=" + id;
-    }
+
+    // Telegram hash safely capture
+    const hash = window.location.hash || "";
+
+    // OPTIONAL: Debug (remove later)
+    console.log("ID:", id);
+    console.log("HASH:", hash);
+
+    // ⏳ IMPORTANT: Delay so ads + SDK load properly
+    setTimeout(() => {
+
+      // Always forward hash (VERY IMPORTANT for AdsGram)
+      window.location.href = "/step1.html?id=" + id + hash;
+
+    }, 2500); // 2.5 sec delay (best)
+
   }
   </script>
   
