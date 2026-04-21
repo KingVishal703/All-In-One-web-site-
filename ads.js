@@ -6,7 +6,7 @@ autoInterval:600000
 };
 
 const IDS = {
-home:"int-22046",
+home:"",
 verify:"int-22056",
 reward:"22055"
 };
