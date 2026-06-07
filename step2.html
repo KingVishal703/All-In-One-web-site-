@@ -11,20 +11,6 @@
 
   <script src='//libtl.com/sdk.js' data-zone='10992033' data-sdk='show_10992033'></script>
 
-
-	<script>
-
-
-// Rewarded interstitial
-
-show_10992033().then(() => {
-    // You need to add your user reward function here, which will be executed after the user watches the ad.
-    // For more details, please refer to the detailed instructions.
-    alert('You have seen an ad!');
-})
-
-	</script>
-	
 	
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -280,7 +266,7 @@ show_10992033().then(() => {
       botStartPrefix: "blg2",
 
       adsgram: {
-        interstitial: { blockId: "int-22056", onLoad: false,  onClick: false },
+        interstitial: { blockId: "int-22056", onLoad: true,  onClick: false },
         reward:       { blockId: "22055",    onLoad: false, onClick: true  }
       },
 
