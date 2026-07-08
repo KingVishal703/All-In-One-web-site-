@@ -7,17 +7,48 @@
 
 
 
-  <style>
+  <!-- Monetag SDK -->
+<script src="//libtl.com/sdk.js" data-zone="10992033" data-sdk="show_10992033"></script>
 
-// Rewarded interstitial
+<script>
+document.addEventListener("DOMContentLoaded", () => {
 
-show_10992033().then(() => {
-    // You need to add your user reward function here, which will be executed after the user watches the ad.
-    // For more details, please refer to the detailed instructions.
-    alert('You have seen an ad!');
-})
+  // Rewarded Interstitial
+  window.showRewardedAd = async function () {
+    try {
+      await show_10992033();
+      console.log("Reward Granted");
+      alert("You have seen an ad!");
+    } catch (e) {
+      console.log("Ad Error", e);
+    }
+  };
 
-  </style>
+  // Rewarded Popup
+  window.showRewardedPopup = async function () {
+    try {
+      await show_10992033("pop");
+      console.log("Reward Granted");
+    } catch (e) {
+      console.log("Popup Error", e);
+    }
+  };
+
+  // Auto In-App Interstitial
+  show_10992033({
+    type: "inApp",
+    inAppSettings: {
+      frequency: 2,
+      capping: 0.1,
+      interval: 30,
+      timeout: 5,
+      everyPage: false
+    }
+  });
+
+});
+</script>
+  
   
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
