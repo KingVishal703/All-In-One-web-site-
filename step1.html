@@ -13,13 +13,6 @@
 
   <!-- Monetag (show_10222194 ke liye) -->
 
-	<script type="text/javascript" src="https://cdn.tgads.space/assets/js/adexium-widget.min.js"></script>
-<script type="text/javascript">
-    document.addEventListener('DOMContentLoaded', () => {
-        const adexiumWidget = new AdexiumWidget({wid: 'ae9bcd06-aa95-41d8-81dc-6a17844cf38f', adFormat: 'interstitial'});
-        adexiumWidget.autoMode();
-    });
-</script>
 	
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -276,7 +269,7 @@
       botStartPrefix: "blg2",
 
       adsgram: {
-        interstitial: { blockId: "int-27540", onLoad: false,  onClick: false },
+        interstitial: { blockId: "int-27540", onLoad: true,  onClick: false },
         reward:       { blockId: "22055",    onLoad: false, onClick: true  }
       },
 
